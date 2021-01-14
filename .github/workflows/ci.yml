@@ -25,7 +25,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -40,7 +39,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -55,7 +53,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -69,7 +66,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -84,7 +80,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -98,7 +93,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -112,7 +106,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-18.04"
             cxx: "g++-10"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -130,7 +123,6 @@ jobs:
             os: "ubuntu-16.04"
             container: "ubuntu:14.04"
             cxx: "/usr/bin/clang++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -145,7 +137,6 @@ jobs:
             os: "ubuntu-16.04"
             container: "ubuntu:14.04"
             cxx: "/usr/bin/clang++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -159,7 +150,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-3.5"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -173,7 +163,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-3.6"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -187,7 +176,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-3.7"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -201,7 +189,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-3.8"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -215,7 +202,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-3.9"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -229,7 +215,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-4.0"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -243,7 +228,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "clang++-11"
-            cxxflags: ""
             sources: ""
             llvm_os: "xenial"
             llvm_ver: "11"
@@ -259,7 +243,6 @@ jobs:
             packages_to_remove: "libc++-dev libc++abi-dev"
             os: "ubuntu-18.04"
             cxx: "clang++-libc++"
-            cxxflags: ""
             sources: ""
             llvm_os: "bionic"
             llvm_ver: "9"
@@ -275,7 +258,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -287,7 +269,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -299,7 +280,6 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             cxx: "g++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -321,7 +301,6 @@ jobs:
         env:
           TRAVIS_BRANCH: ${{ github.base_ref }}
           CXX: ${{ matrix.cxx }}
-          CXXFLAGS: ${{ matrix.cxxflags }}
           SOURCES: ${{ matrix.sources }}
           LLVM_OS: ${{ matrix.llvm_os }}
           LLVM_VER: ${{ matrix.llvm_ver }}
@@ -384,7 +363,6 @@ jobs:
         env:
           TRAVIS_BRANCH: ${{ github.base_ref }}
           CXX: ${{ matrix.cxx }}
-          CXXFLAGS: ${{ matrix.cxxflags }}
           SOURCES: ${{ matrix.sources }}
           LLVM_OS: ${{ matrix.llvm_os }}
           LLVM_VER: ${{ matrix.llvm_ver }}
@@ -447,7 +425,6 @@ jobs:
         env:
           TRAVIS_BRANCH: ${{ github.base_ref }}
           CXX: ${{ matrix.cxx }}
-          CXXFLAGS: ${{ matrix.cxxflags }}
           SOURCES: ${{ matrix.sources }}
           LLVM_OS: ${{ matrix.llvm_os }}
           LLVM_VER: ${{ matrix.llvm_ver }}
@@ -510,7 +487,6 @@ jobs:
         env:
           TRAVIS_BRANCH: ${{ github.base_ref }}
           CXX: ${{ matrix.cxx }}
-          CXXFLAGS: ${{ matrix.cxxflags }}
           SOURCES: ${{ matrix.sources }}
           LLVM_OS: ${{ matrix.llvm_os }}
           LLVM_VER: ${{ matrix.llvm_ver }}
@@ -581,7 +557,6 @@ jobs:
 #             packages: ""
 #             os: "macos-10.15"
 #             cxx: "clang++"
-#             cxxflags: ""
 #             sources: ""
 #             llvm_os: ""
 #             llvm_ver: ""
@@ -600,7 +575,6 @@ jobs:
 #             packages: ""
 #             os: "macos-10.15"
 #             cxx: "clang++"
-#             cxxflags: ""
 #             sources: ""
 #             llvm_os: ""
 #             llvm_ver: ""
@@ -619,7 +593,6 @@ jobs:
 #             packages: ""
 #             os: "macos-10.15"
 #             cxx: "clang++"
-#             cxxflags: ""
 #             sources: ""
 #             llvm_os: ""
 #             llvm_ver: ""
@@ -638,7 +611,6 @@ jobs:
 #             packages: ""
 #             os: "macos-10.15"
 #             cxx: "clang++"
-#             cxxflags: ""
 #             sources: ""
 #             llvm_os: ""
 #             llvm_ver: ""
@@ -652,7 +624,6 @@ jobs:
             packages: ""
             os: "macos-10.15"
             cxx: "clang++"
-            cxxflags: ""
             sources: ""
             llvm_os: ""
             llvm_ver: ""
@@ -681,7 +652,6 @@ jobs:
         env:
           TRAVIS_BRANCH: ${{ github.base_ref }}
           CXX: ${{ matrix.cxx }}
-          CXXFLAGS: ${{ matrix.cxxflags }}
           SOURCES: ${{ matrix.sources }}
           LLVM_OS: ${{ matrix.llvm_os }}
           LLVM_VER: ${{ matrix.llvm_ver }}
