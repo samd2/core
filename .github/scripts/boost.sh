@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Copyright 2020 Rene Rivera, Sam Darwin
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE.txt or copy at http://boost.org/LICENSE_1_0.txt)
+
 set -ex
 export TRAVIS_BUILD_DIR=$(pwd)
 export TRAVIS_BRANCH=${TRAVIS_BRANCH:-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')}

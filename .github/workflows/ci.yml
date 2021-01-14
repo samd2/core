@@ -124,8 +124,7 @@ jobs:
             linkflags: "-fuse-ld=gold"
             drone_job_uuid: "c1dfd96eea"
 #
-# Github Actions provides images for Ubuntu 16.04 and later.
-# Older clang packages may not be available.
+# There may be an incompatibility between certain combinations of clang-3/4, and Github Actions.
 # 
 #           - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 7"
 #             buildtype: "boost"
@@ -142,8 +141,7 @@ jobs:
 #             cxxstd: "03,11"
 #             drone_job_uuid: "902ba3cda1"
 #
-# Github Actions provides images for Ubuntu 16.04 and later.
-# Older clang packages may not be available.
+# There may be an incompatibility between certain combinations of clang-3/4, and Github Actions.
 # 
 #           - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 8"
 #             buildtype: "boost"
@@ -261,14 +259,14 @@ jobs:
             drone_job_uuid: "f1abd67035"
           - name: "UBSAN=1 TOOLSET=clang COMPILER=clang++-libc++ Job 16"
             buildtype: "boost"
-            packages: "libc++-dev libc++abi-dev"
-            packages_to_remove: ""
+            packages: "  libc++-9-dev libc++abi-9-dev"
+            packages_to_remove: "libc++-dev libc++abi-dev"
             os: "ubuntu-18.04"
             cxx: "clang++-libc++"
             cxxflags: ""
             sources: ""
-            llvm_os: ""
-            llvm_ver: ""
+            llvm_os: "bionic"
+            llvm_ver: "9"
             ubsan: "1"
             toolset: "clang"
             compiler: "clang++-libc++"
@@ -637,7 +635,7 @@ jobs:
 
       - name: Set DEVELOPER_DIR
         if: matrix.xcode_version != ''
-        run: echo "::set-env name=DEVELOPER_DIR:/Applications/Xcode-:${{ matrix.xcode_version }}.app/Contents/Developer"
+        run: echo "DEVELOPER_DIR=/Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer" >> $GITHUB_ENV
       - name: Test DEVELOPER_DIR
         run: echo $DEVELOPER_DIR
       - name: boost
@@ -667,6 +665,8 @@ jobs:
           echo '==================================> SETUP'
           set -ex
           uname -a
+          whoami
+          sudo mv /Library/Developer/CommandLineTools /Library/Developer/CommandLineTools.bck
           BOOST_CI_ORG=boostorg BOOST_CI_BRANCH=master && /usr/local/bin/wget https://github.com/$BOOST_CI_ORG/boost-ci/archive/$BOOST_CI_BRANCH.tar.gz && tar -xvf $BOOST_CI_BRANCH.tar.gz && mkdir -p .github &&  mv boost-ci-$BOOST_CI_BRANCH .github/boost-ci
           echo '==================================> PACKAGES'
           ./.github/boost-ci/ci/drone/osx-cxx-install.sh
