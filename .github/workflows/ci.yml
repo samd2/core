@@ -123,46 +123,42 @@ jobs:
             ubsan_options: "print_stacktrace=1"
             linkflags: "-fuse-ld=gold"
             drone_job_uuid: "c1dfd96eea"
-#
-# There may be an incompatibility between certain combinations of clang-3/4, and Github Actions.
-# 
-#           - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 7"
-#             buildtype: "boost"
-#             packages: "clang-3.3"
-#             packages_to_remove: ""
-#             os: "ubuntu-16.04"
-#             cxx: "/usr/bin/clang++"
-#             cxxflags: ""
-#             sources: ""
-#             llvm_os: ""
-#             llvm_ver: ""
-#             toolset: "clang"
-#             compiler: "/usr/bin/clang++"
-#             cxxstd: "03,11"
-#             drone_job_uuid: "902ba3cda1"
-#
-# There may be an incompatibility between certain combinations of clang-3/4, and Github Actions.
-# 
-#           - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 8"
-#             buildtype: "boost"
-#             packages: "clang-3.4"
-#             packages_to_remove: ""
-#             os: "ubuntu-16.04"
-#             cxx: "/usr/bin/clang++"
-#             cxxflags: ""
-#             sources: ""
-#             llvm_os: ""
-#             llvm_ver: ""
-#             toolset: "clang"
-#             compiler: "/usr/bin/clang++"
-#             cxxstd: "03,11"
-#             drone_job_uuid: "fe5dbbcea5"
+          - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 7"
+            buildtype: "boost"
+            packages: "clang-3.3"
+            packages_to_remove: ""
+            os: "ubuntu-16.04"
+            container: "ubuntu:14.04"
+            cxx: "/usr/bin/clang++"
+            cxxflags: ""
+            sources: ""
+            llvm_os: ""
+            llvm_ver: ""
+            toolset: "clang"
+            compiler: "/usr/bin/clang++"
+            cxxstd: "03,11"
+            drone_job_uuid: "902ba3cda1"
+          - name: "TOOLSET=clang COMPILER=/usr/bin/clang++ CXXST Job 8"
+            buildtype: "boost"
+            packages: "clang-3.4"
+            packages_to_remove: ""
+            os: "ubuntu-16.04"
+            container: "ubuntu:14.04"
+            cxx: "/usr/bin/clang++"
+            cxxflags: ""
+            sources: ""
+            llvm_os: ""
+            llvm_ver: ""
+            toolset: "clang"
+            compiler: "/usr/bin/clang++"
+            cxxstd: "03,11"
+            drone_job_uuid: "fe5dbbcea5"
           - name: "TOOLSET=clang COMPILER=clang++-3.5 CXXSTD=03 Job 9"
             buildtype: "boost"
             packages: "clang-3.5"
             packages_to_remove: ""
             os: "ubuntu-16.04"
-            cxx: "clang++"
+            cxx: "clang++-3.5"
             cxxflags: ""
             sources: ""
             llvm_os: ""
@@ -176,7 +172,7 @@ jobs:
             packages: "clang-3.6"
             packages_to_remove: ""
             os: "ubuntu-16.04"
-            cxx: "clang++"
+            cxx: "clang++-3.6"
             cxxflags: ""
             sources: ""
             llvm_os: ""
@@ -190,7 +186,7 @@ jobs:
             packages: "clang-3.7"
             packages_to_remove: ""
             os: "ubuntu-16.04"
-            cxx: "clang++"
+            cxx: "clang++-3.7"
             cxxflags: ""
             sources: ""
             llvm_os: ""
@@ -311,9 +307,13 @@ jobs:
             drone_job_uuid: "f6e1126ced"
 
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
 
     steps:
       - uses: actions/checkout@v2
+      - name: Check if running in container
+        if: matrix.container != ''
+        run: echo "GHA_CONTAINER=${{ matrix.container }}" >> $GITHUB_ENV
       - name: boost
         #if: ${{ matrix.buildtype }} == boost
         if: matrix.buildtype == 'boost'
@@ -340,6 +340,14 @@ jobs:
           CMAKE_INSTALL_TEST: ${{ matrix.cmake_install_test }}
         run: |
           echo '==================================> SETUP'
+          if [ -n "$GHA_CONTAINER" ]; then
+            # if running in a container
+            apt-get -o Acquire::Retries=3 update && DEBIAN_FRONTEND=noninteractive apt-get -y install tzdata && apt-get -o Acquire::Retries=3 install -y sudo software-properties-common wget curl apt-transport-https make apt-file sudo unzip libssl-dev build-essential autotools-dev autoconf automake g++ libc++-helpers python python-pip ruby cpio gcc-multilib g++-multilib pkgconf python3 python3-pip ccache libpython-dev
+            apt-add-repository ppa:git-core/ppa
+            apt-get -o Acquire::Retries=3 update && apt-get -o Acquire::Retries=3 -y install git
+            python -m pip install --upgrade pip
+            /usr/local/bin/pip install cmake
+          fi
           BOOST_CI_ORG=boostorg BOOST_CI_BRANCH=master && wget https://github.com/$BOOST_CI_ORG/boost-ci/archive/$BOOST_CI_BRANCH.tar.gz && tar -xvf $BOOST_CI_BRANCH.tar.gz && mkdir -p .github &&  mv boost-ci-$BOOST_CI_BRANCH .github/boost-ci
           echo '==================================> PACKAGES'
           set -ex
@@ -395,6 +403,14 @@ jobs:
           CMAKE_INSTALL_TEST: ${{ matrix.cmake_install_test }}
         run: |
           echo '==================================> SETUP'
+          if [ -n "$GHA_CONTAINER" ]; then
+            # if running in a container
+            apt-get -o Acquire::Retries=3 update && DEBIAN_FRONTEND=noninteractive apt-get -y install tzdata && apt-get -o Acquire::Retries=3 install -y sudo software-properties-common wget curl apt-transport-https make apt-file sudo unzip libssl-dev build-essential autotools-dev autoconf automake g++ libc++-helpers python python-pip ruby cpio gcc-multilib g++-multilib pkgconf python3 python3-pip ccache libpython-dev
+            apt-add-repository ppa:git-core/ppa
+            apt-get -o Acquire::Retries=3 update && apt-get -o Acquire::Retries=3 -y install git
+            python -m pip install --upgrade pip
+            /usr/local/bin/pip install cmake
+          fi
           BOOST_CI_ORG=boostorg BOOST_CI_BRANCH=master && wget https://github.com/$BOOST_CI_ORG/boost-ci/archive/$BOOST_CI_BRANCH.tar.gz && tar -xvf $BOOST_CI_BRANCH.tar.gz && mkdir -p .github &&  mv boost-ci-$BOOST_CI_BRANCH .github/boost-ci
           echo '==================================> PACKAGES'
           set -ex
@@ -450,6 +466,14 @@ jobs:
           CMAKE_INSTALL_TEST: ${{ matrix.cmake_install_test }}
         run: |
           echo '==================================> SETUP'
+          if [ -n "$GHA_CONTAINER" ]; then
+            # if running in a container
+            apt-get -o Acquire::Retries=3 update && DEBIAN_FRONTEND=noninteractive apt-get -y install tzdata && apt-get -o Acquire::Retries=3 install -y sudo software-properties-common wget curl apt-transport-https make apt-file sudo unzip libssl-dev build-essential autotools-dev autoconf automake g++ libc++-helpers python python-pip ruby cpio gcc-multilib g++-multilib pkgconf python3 python3-pip ccache libpython-dev
+            apt-add-repository ppa:git-core/ppa
+            apt-get -o Acquire::Retries=3 update && apt-get -o Acquire::Retries=3 -y install git
+            python -m pip install --upgrade pip
+            /usr/local/bin/pip install cmake
+          fi
           BOOST_CI_ORG=boostorg BOOST_CI_BRANCH=master && wget https://github.com/$BOOST_CI_ORG/boost-ci/archive/$BOOST_CI_BRANCH.tar.gz && tar -xvf $BOOST_CI_BRANCH.tar.gz && mkdir -p .github &&  mv boost-ci-$BOOST_CI_BRANCH .github/boost-ci
           echo '==================================> PACKAGES'
           set -ex
@@ -505,6 +529,14 @@ jobs:
           CMAKE_INSTALL_TEST: ${{ matrix.cmake_install_test }}
         run: |
           echo '==================================> SETUP'
+          if [ -n "$GHA_CONTAINER" ]; then
+            # if running in a container
+            apt-get -o Acquire::Retries=3 update && DEBIAN_FRONTEND=noninteractive apt-get -y install tzdata && apt-get -o Acquire::Retries=3 install -y sudo software-properties-common wget curl apt-transport-https make apt-file sudo unzip libssl-dev build-essential autotools-dev autoconf automake g++ libc++-helpers python python-pip ruby cpio gcc-multilib g++-multilib pkgconf python3 python3-pip ccache libpython-dev
+            apt-add-repository ppa:git-core/ppa
+            apt-get -o Acquire::Retries=3 update && apt-get -o Acquire::Retries=3 -y install git
+            python -m pip install --upgrade pip
+            /usr/local/bin/pip install cmake
+          fi
           BOOST_CI_ORG=boostorg BOOST_CI_BRANCH=master && wget https://github.com/$BOOST_CI_ORG/boost-ci/archive/$BOOST_CI_BRANCH.tar.gz && tar -xvf $BOOST_CI_BRANCH.tar.gz && mkdir -p .github &&  mv boost-ci-$BOOST_CI_BRANCH .github/boost-ci
           echo '==================================> PACKAGES'
           set -ex
@@ -597,20 +629,24 @@ jobs:
 #             cxxstd: "03,11,14,1z"
 #             addrmd: "32,64"
 #             drone_job_uuid: "91032ad7bb"
-          - name: "TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,1 Job 21"
-            buildtype: "boost"
-            packages: ""
-            os: "macos-10.15"
-            cxx: "clang++"
-            cxxflags: ""
-            sources: ""
-            llvm_os: ""
-            llvm_ver: ""
-            xcode_version: "10.1"
-            toolset: "clang"
-            compiler: "clang++"
-            cxxstd: "03,11,14,1z"
-            drone_job_uuid: "472b07b9fc"
+#
+# Github Actions only supports Xcode versions 10.3 and above
+# Change (or delete) the Xcode version for this job.
+# 
+#           - name: "TOOLSET=clang COMPILER=clang++ CXXSTD=03,11,1 Job 21"
+#             buildtype: "boost"
+#             packages: ""
+#             os: "macos-10.15"
+#             cxx: "clang++"
+#             cxxflags: ""
+#             sources: ""
+#             llvm_os: ""
+#             llvm_ver: ""
+#             xcode_version: "10.1"
+#             toolset: "clang"
+#             compiler: "clang++"
+#             cxxstd: "03,11,14,1z"
+#             drone_job_uuid: "472b07b9fc"
           - name: "UBSAN=1 TOOLSET=clang COMPILER=clang++ CXXSTD Job 22"
             buildtype: "boost"
             packages: ""
