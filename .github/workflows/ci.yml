@@ -128,6 +128,7 @@ jobs:
           dpkg -l | grep gcc-multilib || true
           sudo apt install ${{matrix.install}}
           dpkg -l | grep gcc-multilib || true
+          sudo grep -i assume /etc/apt/apt.conf.d/*
 
       - name: Setup Boost
         run: |
