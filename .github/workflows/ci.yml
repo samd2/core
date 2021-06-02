@@ -125,9 +125,9 @@ jobs:
         if: matrix.install
         run: | 
           set -xe
-          dpkg -l | grep gcc-multilib
+          dpkg -l | grep gcc-multilib || true
           sudo apt install ${{matrix.install}}
-          dpkg -l | grep gcc-multilib
+          dpkg -l | grep gcc-multilib || true
 
       - name: Setup Boost
         run: |
