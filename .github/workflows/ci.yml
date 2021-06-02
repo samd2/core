@@ -111,6 +111,7 @@ jobs:
             compiler: clang++-11
             cxxstd: "03,11,14,17,2a"
             os: ubuntu-20.04
+            install: gcc-multilib
           - toolset: clang
             cxxstd: "03,11,14,17,2a"
             os: macos-10.15
@@ -122,7 +123,11 @@ jobs:
 
       - name: Install packages
         if: matrix.install
-        run: sudo apt install ${{matrix.install}}
+        run: | 
+          set -xe
+          dpkg -l | grep gcc-multilib
+          sudo apt install ${{matrix.install}}
+          dpkg -l | grep gcc-multilib
 
       - name: Setup Boost
         run: |
